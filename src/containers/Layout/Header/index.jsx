@@ -31,7 +31,7 @@ function Header() {
         <Row style={{ justifyContent: 'center', padding: '4px 5%' }}>
           <Col xs="6">
             <Box type="vCenter">
-              <ProfileAvatar src="https://i.pinimg.com/474x/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg" />
+              <ProfileAvatar src={user.image} />
               <Para size={typoConstants.size.SIZE_3} style={{ margin: '0 0 0 10px' }}>
                 {user.name}
               </Para>

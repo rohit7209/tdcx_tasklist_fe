@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Input } from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
 import { includes, isArray, map } from 'lodash';
+import Skeleton from 'react-loading-skeleton';
 import Button, { constants } from '../../components/ui/Button';
 import { Col, Row } from '../../components/ui/Grid';
 import TextInput from '../../components/ui/Input';
@@ -73,6 +74,20 @@ const TaskCol = styled(Col)`
     margin-bottom: 10px;
   }
 `;
+
+const TaskSkeleton = () => (
+  <StyledRow>
+    <Col xs={2} md={1}>
+      <Skeleton count={1} height={30} width="90%" />
+    </Col>
+    <Col xs={7} md={8}>
+      <Skeleton count={1} height={30} width="100%" />
+    </Col>
+    <Col xs={{ size: 2, offset: 1 }}>
+      <Skeleton count={1} height={30} width="100%" />
+    </Col>
+  </StyledRow>
+);
 
 const Tasks = ({ refetch }) => {
   const [tasklist, setTasklist] = useState([]);
@@ -145,19 +160,33 @@ const Tasks = ({ refetch }) => {
               return null;
             }
             return (
-              <StyledRow>
-                <Col xs="9">
-                  <StyledText strike={completed} color={colors.BLUE}>
-                    <CheckBox onClick={() => markTask(id, completed)} type="checkbox" checked={completed} color={colors.TEXT_STRONG} />
-                    {name}
-                  </StyledText>
-                </Col>
-                <ActionCol xs="3" style={{}}>
-                  <AddTask selectedTask={{ name, id }} refetch={refreshData} icon={<FontAwesomeIcon icon={faPen} color={colors.TEXT_STRONG} />} />
-                  &nbsp;&nbsp;&nbsp;
-                  <Button type={constants.type.LINK} style={{ padding: '0' }}><FontAwesomeIcon onClick={() => deleteTask(id)} icon={faTrash} color={colors.TEXT_STRONG} /></Button>
-                </ActionCol>
-              </StyledRow>
+              loading
+                ? (
+                  <>
+                    <TaskSkeleton />
+                    <TaskSkeleton />
+                    <TaskSkeleton />
+                    <TaskSkeleton />
+                    <TaskSkeleton />
+                  </>
+                )
+                : (
+                  <StyledRow>
+                    <Col xs="9">
+                      <StyledText strike={completed} color={colors.BLUE}>
+                        <CheckBox onClick={() => markTask(id, completed)} type="checkbox" checked={completed} color={colors.TEXT_STRONG} />
+                        {name}
+                      </StyledText>
+                    </Col>
+                    <ActionCol xs="3" style={{}}>
+                      <AddTask selectedTask={{ name, id }} refetch={refreshData} icon={<FontAwesomeIcon icon={faPen} color={colors.TEXT_STRONG} />} />
+                      &nbsp;&nbsp;&nbsp;
+                      <Button type={constants.type.LINK} style={{ padding: '0' }}>
+                        <FontAwesomeIcon onClick={() => deleteTask(id)} icon={faTrash} color={colors.TEXT_STRONG} />
+                      </Button>
+                    </ActionCol>
+                  </StyledRow>
+                )
             );
           })}
         </Wrapper>
@@ -171,7 +200,7 @@ Tasks.propTypes = {
 };
 
 Tasks.defaultProps = {
-  refetch: () => {},
+  refetch: () => { },
 };
 
 export default Tasks;

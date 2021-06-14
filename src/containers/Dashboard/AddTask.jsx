@@ -25,6 +25,11 @@ const StyledModal = styled(Modal)`
   & .modal-content {
     border-radius: 12px;
   }
+  @media(max-width: 576px){
+    align-items: flex-start;
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+  }  
 `;
 
 const AddTask = ({ btnStyle, refetch, selectedTask, icon }) => {

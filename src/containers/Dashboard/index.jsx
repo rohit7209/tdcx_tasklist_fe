@@ -9,6 +9,7 @@ import { Para, constants as typoConstants } from '../../components/ui/Typo';
 import { useAuthContext } from '../../providers/auth/provider';
 import Overview from './Overview';
 import Tasks from './Tasks';
+import AddTask from './AddTask';
 
 const EmptyBox = styled(Box)`
   width: 100%;
@@ -42,7 +43,7 @@ const Dashboard = () => {
 
   return (
     <Container>
-      {get(info, 'totalTasks', 0) > 0
+      {get(info, 'totalTasks', 0) || loading
         ? (
           <>
             <Overview loading={loading} info={info} />
@@ -55,8 +56,7 @@ const Dashboard = () => {
               <EmptyBox>
                 <Card
                   title={<Para size={typoConstants.size.SIZE_3} style={{ textAlign: 'center' }}>You have no task.</Para>}
-                  actionText="+ New Task"
-                  action={() => { }}
+                  content={<Box><AddTask btnStyle={{ margin: 'auto' }} refetch={fetchDashboardInfo} /></Box>}
                 />
               </EmptyBox>
             </Col>
