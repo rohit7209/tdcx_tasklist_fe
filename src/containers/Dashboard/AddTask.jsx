@@ -50,6 +50,7 @@ const AddTask = ({ btnStyle, refetch, selectedTask, icon }) => {
       const data = await taskApi.createTask({ name: taskName });
       if (get(data, 'name')) {
         setIsOpen(false);
+        setTaskName('');
         addToast('Task created successfully', { appearance: 'success' });
         refetch();
       }

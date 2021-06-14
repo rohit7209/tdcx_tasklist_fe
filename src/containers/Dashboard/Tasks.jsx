@@ -76,7 +76,7 @@ const TaskCol = styled(Col)`
 `;
 
 const TaskSkeleton = () => (
-  <StyledRow>
+  <StyledRow style={{ padding: '15px 0' }}>
     <Col xs={2} md={1}>
       <Skeleton count={1} height={30} width="90%" />
     </Col>
@@ -155,22 +155,22 @@ const Tasks = ({ refetch }) => {
       </Row>
       <Row>
         <Wrapper>
-          {map(tasklist, ({ name, completed, id }) => {
-            if (searchKey && !includes(name, searchKey)) {
-              return null;
-            }
-            return (
-              loading
-                ? (
-                  <>
-                    <TaskSkeleton />
-                    <TaskSkeleton />
-                    <TaskSkeleton />
-                    <TaskSkeleton />
-                    <TaskSkeleton />
-                  </>
-                )
-                : (
+          {
+            loading
+              ? (
+                <>
+                  <TaskSkeleton />
+                  <TaskSkeleton />
+                  <TaskSkeleton />
+                  <TaskSkeleton />
+                  <TaskSkeleton />
+                </>
+              )
+              : map(tasklist, ({ name, completed, id }) => {
+                if (searchKey && !includes(name, searchKey)) {
+                  return null;
+                }
+                return (
                   <StyledRow>
                     <Col xs="9">
                       <StyledText strike={completed} color={colors.BLUE}>
@@ -186,9 +186,10 @@ const Tasks = ({ refetch }) => {
                       </Button>
                     </ActionCol>
                   </StyledRow>
-                )
-            );
-          })}
+
+                );
+              })
+          }
         </Wrapper>
       </Row>
     </div>
